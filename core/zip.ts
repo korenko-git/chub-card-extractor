@@ -28,11 +28,11 @@ export async function createAndDownloadZip(
 
   const name = extractName(metadata.node.fullPath) || "archive";
   const blob = await zip.generateAsync({type: "blob"});
-  const blobUrl = URL.createObjectURL(blob);
+  //const blobUrl = URL.createObjectURL(blob);
 
   browser.runtime.sendMessage({
     action: 'downloadFile',
-    url: blobUrl,
+    blob: blob,
     filename: `${name}.zip`
   });
 

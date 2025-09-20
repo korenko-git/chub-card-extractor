@@ -20,7 +20,7 @@ export default defineBackground(() => {
     if (msg.action === "downloadFile") {
       const dl = browser.downloads?.download
         ? browser.downloads.download({
-            url: msg.url,
+            url: URL.createObjectURL(msg.blob),
             filename: msg.filename,
             saveAs: true,
           })
