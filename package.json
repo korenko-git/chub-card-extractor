@@ -1,8 +1,8 @@
 {
-  "name": "wxt-starter",
-  "description": "manifest.json description",
-  "private": true,
-  "version": "0.0.0",
+  "name": "chub-scraper-extension",
+  "description": "A browser extension that allows you to quickly collect information about cards on Chub.ai and save it in Markdown and JSON formats, then package them into a ZIP archive. The extension works with character cards, lorebooks, and presets",
+  "private": false,
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "wxt",
@@ -17,5 +17,8 @@
   "devDependencies": {
     "typescript": "^5.9.2",
     "wxt": "^0.20.6"
+  },
+  "dependencies": {
+    "jszip": "^3.10.1"
   }
 }
