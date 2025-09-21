@@ -12,9 +12,16 @@
     "zip": "wxt zip",
     "zip:firefox": "wxt zip -b firefox",
     "compile": "tsc --noEmit",
-    "postinstall": "wxt prepare"
+    "postinstall": "wxt prepare",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:chrome": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:report": "playwright show-report",
+    "test:setup": "npm install && npx playwright install chromium firefox"
   },
   "devDependencies": {
+    "@playwright/test": "^1.55.0",
     "typescript": "^5.9.2",
     "wxt": "^0.20.6"
   },

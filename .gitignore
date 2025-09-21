@@ -25,3 +25,8 @@ web-ext.config.ts
 *.njsproj
 *.sln
 *.sw?
+
+# Test files
+test-results/
+playwright-report/
+playwright/.cache/
