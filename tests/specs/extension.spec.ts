@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../fixtures/browser-fixture';
 import { testUrls, timeouts } from '../config/test-data';
 import { getFileHash, getFileSizeKB } from '../helpers/file-utils';
 import { setupConsoleMonitoring, printConsoleSummary } from '../helpers/console-monitor';
@@ -172,50 +172,23 @@ test.describe('Chrome Extension Tests', () => {
         cleanOldDownloads('chrome');
     });
 
-    test('extract character card (Chrome)', async () => {
-        await testExtraction('character', 'chrome');
+    test('extract character card', async ({ myBrowser }) => {
+        await testExtraction('character', myBrowser);
     });
 
-    test('extract lorebook (Chrome)', async () => {
-        await testExtraction('lorebook', 'chrome');
+    test('extract lorebook', async ({ myBrowser }) => {
+        await testExtraction('lorebook', myBrowser);
     });
 
-    test('extract preset (Chrome)', async () => {
-        await testExtraction('preset', 'chrome');
+    test('extract preset', async ({ myBrowser }) => {
+        await testExtraction('preset', myBrowser);
     });
 
-    test('should do nothing on non-chub site (Chrome)', async () => {
-        await testExtensionOnWrongSite('chrome');
+    test('should do nothing on non-chub site', async ({ myBrowser }) => {
+        await testExtensionOnWrongSite(myBrowser);
     });
 
-    test('should do nothing on wrong chub URL (Chrome)', async () => {
-        await testExtensionOnWrongChubUrl('chrome');
-    });
-});
-
-// Firefox Tests
-test.describe('Firefox Extension Tests', () => {
-    test.beforeAll(async () => {
-        cleanOldDownloads('firefox');
-    });
-
-    test('extract character card (Firefox)', async () => {
-        await testExtraction('character', 'firefox');
-    });
-
-    test('extract lorebook (Firefox)', async () => {
-        await testExtraction('lorebook', 'firefox');
-    });
-
-    test('extract preset (Firefox)', async () => {
-        await testExtraction('preset', 'firefox');
-    });
-
-    test('should do nothing on non-chub site (Firefox)', async () => {
-        await testExtensionOnWrongSite('firefox');
-    });
-
-    test('should do nothing on wrong chub URL (Firefox)', async () => {
-        await testExtensionOnWrongChubUrl('firefox');
+    test('should do nothing on wrong chub URL', async ({ myBrowser }) => {
+        await testExtensionOnWrongChubUrl(myBrowser);
     });
 });
