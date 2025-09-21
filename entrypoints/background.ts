@@ -3,7 +3,7 @@ import { urlMatches } from '@/utils/matches';
 export default defineBackground(() => {
   (browser.action ?? browser.browserAction).onClicked.addListener(async (tab) => {
     if (!tab.id || !tab.url) return;
-    
+
     if (urlMatches(tab.url)) {
       console.log("✅ URL matched:", tab.url);
       const res = await browser.scripting.executeScript({
@@ -16,23 +16,34 @@ export default defineBackground(() => {
     }
   });
 
-  browser.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  browser.runtime.onMessage.addListener(async (msg, _sender, sendResponse) => {
     if (msg.action === "downloadFile") {
-      const dl = browser.downloads?.download
-        ? browser.downloads.download({
-            url: URL.createObjectURL(msg.blob),
-            filename: msg.filename,
-            saveAs: true,
-          })
-        : null;
+      try {
+        const blob = new Blob([msg.data], { type: msg.mimeType || 'application/octet-stream' });
+        const objectUrl = URL.createObjectURL(blob);
 
-      if (dl && typeof dl.then === "function") {
-        dl.then(() => sendResponse({ status: "ok" })).catch(() => sendResponse({ status: "fail" }));
+        if (!browser.downloads?.download) {
+          URL.revokeObjectURL(objectUrl);
+          sendResponse({ status: "fallback" });
+          return;
+        }
+
+        await browser.downloads.download({
+          url: objectUrl,
+          filename: msg.filename,
+          saveAs: true,
+        });
+        
+        URL.revokeObjectURL(objectUrl);
+        sendResponse({ status: "ok" });
 
         return true;
-      } else {
+      } catch (error) {
+        console.error('Error in background download:', error);
         sendResponse({ status: "fallback" });
       }
+      
+      return true;
     }
   });
 });

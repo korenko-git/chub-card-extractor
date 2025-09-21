@@ -3,6 +3,7 @@ import { CardFile } from "./cardFile";
 import { CardMetadata, ProjectSpaceMap } from "@/types/BaseNode";
 import { extractName } from "@/utils/path";
 import { generateReadmeFromNode } from "@/utils/readme";
+import { downloadFile } from "@/utils/download";
 
 export async function createAndDownloadZip(
   metadata: CardMetadata<keyof ProjectSpaceMap>,
@@ -15,26 +16,27 @@ export async function createAndDownloadZip(
   zip.file("readme.html", generateReadmeFromNode(metadata.node));
   zip.file(main.name, main.content || '');
   if (main.image) {
-    zip.file(main.image.name, main.image.content);
+    // Convert Blob to ArrayBuffer for JSZip
+    const imageArrayBuffer = await main.image.content.arrayBuffer();
+    zip.file(main.image.name, imageArrayBuffer);
   }
 
   const nodesFolder = zip.folder("nodes");
-  nodes.forEach(node => {
+  for (const node of nodes) {
     if (node) {
       nodesFolder?.file(node.name, node.content || '');
-      if (node.image) nodesFolder?.file(node.image.name, node.image.content);
+      if (node.image) {
+        // Convert Blob to ArrayBuffer for JSZip
+        const imageArrayBuffer = await node.image.content.arrayBuffer();
+        nodesFolder?.file(node.image.name, imageArrayBuffer);
+      }
     }
-  });
+  }
 
   const name = extractName(metadata.node.fullPath) || "archive";
   const blob = await zip.generateAsync({type: "blob"});
-  //const blobUrl = URL.createObjectURL(blob);
 
-  browser.runtime.sendMessage({
-    action: 'downloadFile',
-    blob: blob,
-    filename: `${name}.zip`
-  });
+  await downloadFile(blob, `${name}.zip`);
 
   console.log("Card extraction complete, download initiated");
 }

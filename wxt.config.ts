@@ -5,7 +5,8 @@ export default defineConfig({
   manifest: {
     permissions: ["activeTab", "scripting", "tabs", "storage", "downloads"],
     host_permissions: [
-      "*://*.chub.ai/*"
+      "*://*.chub.ai/*",
+      "*://*.charhub.io/*"
     ],
     action: {
       "default_icon": {
@@ -15,6 +16,11 @@ export default defineConfig({
         "128": "icon/128.png"
       },
       "default_title": "Chub Card Extractor"
+    },
+    browser_specific_settings: {
+      gecko: {
+        strict_min_version: "109.0"
+      }
     }
   }
 });

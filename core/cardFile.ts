@@ -1,6 +1,7 @@
 import { BaseNode, ProjectSpaceMap } from "@/types/BaseNode";
 import { makeRequest } from "./api";
 import { normalizeNodeName, processPresetData } from "@/utils/preset";
+import { fetchWithCorsHandling } from "@/utils/cors";
 
 export interface CardFile {
   name: string;
@@ -40,8 +41,8 @@ async function fetchJsonFileContent(projectId: number, fileName: string, branch 
 async function fetchImageFileContent(node: BaseNode): Promise<{name: string, content: Blob} | null> {
   const imageUrl = node.max_res_url.trim();
   try {
-    const imageResponse = await fetch(imageUrl);
-    if (imageResponse.status === 200) {
+    const imageResponse = await fetchWithCorsHandling(imageUrl);
+    if (imageResponse && imageResponse.status === 200) {
       const imageBlob = await imageResponse.blob();
       const imageExt = /\.(png|jpg|jpeg|webp)$/i.exec(imageUrl)?.[1] || 'png';
       return { name: `${normalizeNodeName(node.name)}_image.${imageExt}`, content: imageBlob };
