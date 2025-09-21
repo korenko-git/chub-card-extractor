@@ -1,6 +1,6 @@
-# Chub Scraper Extension
+# Chub Card Extractor
 
-**Chub Scraper Extension** is a browser extension built with TypeScript and Vite, designed to extract card data from Chub.ai, including characters, lorebooks, and presets. The extension packages the data into a ZIP file containing JSON, Markdown/HTML, and associated images.
+A browser extension built with TypeScript and Vite for extracting card data from Chub.ai, including characters, lorebooks, and presets. The extension packages the data into a ZIP file containing JSON, Markdown/HTML, and associated images.
 
 ## Features
 
