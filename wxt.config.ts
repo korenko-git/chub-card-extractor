@@ -3,6 +3,7 @@ import { defineConfig } from 'wxt';
 // See https://wxt.dev/api/config.html
 export default defineConfig({
   manifest: {
+    name: "Chub Card Extractor",
     permissions: ["activeTab", "scripting", "tabs", "storage", "downloads"],
     host_permissions: [
       "*://*.chub.ai/*",

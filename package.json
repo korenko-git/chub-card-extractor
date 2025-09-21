@@ -1,6 +1,6 @@
 {
-  "name": "chub-scraper-extension",
-  "description": "A browser extension that allows you to quickly collect information about cards on Chub.ai and save it in Markdown and JSON formats, then package them into a ZIP archive. The extension works with character cards, lorebooks, and presets",
+  "name": "chub-card-extractor",
+  "description": "Quickly extract cards from Chub.ai",
   "private": false,
   "version": "1.0.0",
   "type": "module",
